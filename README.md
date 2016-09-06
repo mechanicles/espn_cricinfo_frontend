@@ -1,24 +1,4 @@
-# README
+## ESPN Cricket Live Score Example using RabbitMQ. [Subscriber/Receiver Microservice]
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+In this app/microservice, we get the real time messages (live score) from [producer/publisher microservice](https://github.com/mechanicles/espn_cricinfo)
+& then we update those messages to our users.
