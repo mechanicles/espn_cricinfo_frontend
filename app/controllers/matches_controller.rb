@@ -7,7 +7,7 @@ class MatchesController < ApplicationController
 
   def show
     service = EspnCrickinfoService.new
-    @match = service.get_match_info(params[:match_id])
+    @match = service.get_match_info(params[:id])
   end
 
 end

@@ -6,32 +6,6 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
-    <script type="text/javascript">
-       var ws = new SockJS("http://127.0.0.1:15674/stomp");
-       var client = Stomp.over(ws);
-
-       client.heartbeat.outgoing = 0;
-       client.heartbeat.incoming = 0;
-
-       var onDebug = function(m) {
-         console.log("DEBUG", m);
-       };
-
-       var onConnect = function() {
-         console.log("Connected");
-         client.subscribe("match-3", function(d) {
-           console.log(JSON.parse(d.body));
-         });
-       };
-
-       var onError = function(e) {
-         console.log("ERROR", e);
-       };
-
-       client.debug = onDebug;
-       client.connect("guest", "guest", onConnect, onError, "/");
-     </script>
   </head>
   <body>
     <%= yield %>
