@@ -1,7 +1,7 @@
 class EspnCrickinfoService
 
   def get_all_maches_info
-    @matches ||= JSON.parse(Http.get("#{main_espn_crick_info_url}/matches.json").body)
+    @all_matches ||= JSON.parse(Http.get("#{main_espn_crick_info_url}/matches.json").body)
   end
 
   def get_match_info(match_id)

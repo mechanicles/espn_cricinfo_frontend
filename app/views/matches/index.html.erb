@@ -1,34 +1,42 @@
 <div>
   <div>
     <h3>LIVE SCORES</h3>
-    <table>
-      <tbody>
-        <% @matches.each do |match| %>
-          <tr>
-            <td>
-              <%= link_to match_path(match["id"]) do %>
-                <b><%= match["team1"] %></b> v <b><%= match["team2"] %></b>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
+    <% if @live_matches.present? %>
+      <table>
+        <tbody>
+          <% @live_matches.each do |match| %>
+            <tr>
+              <td>
+                <%= link_to match_path(match["id"]) do %>
+                  <b><%= match["team1"] %></b> v <b><%= match["team2"] %></b>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% else %>
+        No live matches found!
+      <% end %>
     </table>
   </div>
   <div>
     <h3>PREVIOUS MATCH RESULTS</h3>
-    <table>
-      <tbody>
-        <% @matches.each do |match| %>
-          <tr>
-            <td>
-              <%= link_to match_path(match["id"]) do %>
-                <b><%= match["team1"] %></b> v <b><%= match["team2"] %></b>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <% if @previous_matches.present? %>
+      <table>
+        <tbody>
+          <% @previous_matches.each do |match| %>
+            <tr>
+              <td>
+                <%= link_to match_path(match["id"]) do %>
+                  <b><%= match["team1"] %></b> v <b><%= match["team2"] %></b>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      No matches found!
+    <% end %>
   </div>
 </div>
