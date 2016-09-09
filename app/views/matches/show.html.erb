@@ -13,7 +13,7 @@
     <% end %>
   </div>
 
-  <div data-info="current-batting-team-info" class="current-batting-team">
+  <div data-info="current-batting-team-info" class="current-batting-team <%= handle_css_class(@match["end_result"]) %>">
     <%= @match["current_batting_team_info"]["status"] %>
   </div>
   <br/ >
@@ -54,6 +54,7 @@
           }else {
             $("[data-info~=match-end-result]").html("Match got tied");
           }
+          $("[data-info~=current-batting-team-info]").removeClass('green-color');
         }
       });
     };

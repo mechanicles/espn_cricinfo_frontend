@@ -10,4 +10,12 @@ module ApplicationHelper
     end
   end
 
+  def handle_css_class(end_result)
+    if end_result.present?
+      ""
+    else
+      "green-color"
+    end
+  end
+
 end
