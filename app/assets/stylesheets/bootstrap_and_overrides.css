@@ -1,0 +1,53 @@
+/*
+  =require twitter-bootstrap-static/bootstrap
+
+  Use Font Awesome icons (default)
+  To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
+  =require twitter-bootstrap-static/fontawesome
+  */
+
+/*.navbar .container .logo {*/
+  /*width: 149px;*/
+  /*height: 65px;*/
+  /*background-size: 149px 30px;*/
+/*}*/
+
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h2 span {
+  font-size: 13px;
+  margin-left: 5px;
+  color: #777;
+}
+
+.container-body {
+  min-height: 350px;
+  margin-bottom: 10px;
+  margin-top: -15px;
+}
+
+.message {
+  color: green;
+}
+
+.current-batting-team {
+  color: green;
+  font-size: larger;
+  font-weight:500;
+}
+
+.first-batting-team {
+  font-size: larger;
+  font-weight:500;
+  float: left;
+  margin-right: 10px;
+}
+
+.match-end-result {
+  color: red;
+  font-weight:500;
+  font-size: larger;
+}

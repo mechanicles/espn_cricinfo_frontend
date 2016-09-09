@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>EspnCricinfoFrontend</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "EspnCricinfoFrontend" %></title>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <%= yield %>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <%= link_to root_path, class: "navbar-brand" do %>
+          <b>
+            EspnCricinfoFrontend
+          </b>
+        <% end %>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 container-body">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+      </div>
+      <footer>
+        <p>&copy; EspnCricinfo 2016</p>
+      </footer>
+    </div>
   </body>
 </html>

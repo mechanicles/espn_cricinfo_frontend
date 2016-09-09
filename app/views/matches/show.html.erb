@@ -1,52 +1,68 @@
-<h1 data-behavior="match-title" data-match-id="<%= @match["id"] %>">
-  <%= @match["title"] %>
-</h1>
+<div>
+  <h2 data-info="match-title" data-match-id="<%= @match["id"] %>">
+    <%= @match["title"] %><span>(<%= @match["first_batting_team"] %> chose batting first)</span>
+  </h2>
 
-<div data-behavior="first-batting-team-score">
-  <% if @match["first_batting_team_score"] && @match["first_batting_team_score"]["played"] %>
-    <h3> <%= @match["first_batting_team_score"]["name"]%> <%= @match["first_batting_team_score"]["total_runs"] %>/<%= @match["first_batting_team_score"]["total_out"] %> </h3>
-  <% end %>
+  <div data-info="match-end-result" class="match-end-result">
+    <%= formatted_match_end_result(@match["end_result"]) %>
+  </div>
+
+  <div data-info="first-batting-team-info" class="first-batting-team">
+    <% if @match["first_batting_team_info"] && @match["first_batting_team_info"]["played"] %>
+      <%= @match["first_batting_team_info"]["status"] %>
+    <% end %>
+  </div>
+
+  <div data-info="current-batting-team-info" class="current-batting-team">
+    <%= @match["current_batting_team_info"]["status"] %>
+  </div>
+  <br/ >
+  <%= link_to "Back", root_path %>
 </div>
 
-<div data-behavior="current-batting-team-score">
-  <%= @match["current_batting_team_score"]["name"]%> <%= @match["current_batting_team_score"]["total_runs"] %>/<%= @match["current_batting_team_score"]["total_out"] %>
-<div>
+<% if @match["end_result"].blank? %>
+  <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+  <script type="text/javascript">
+    var ws = new SockJS("http://127.0.0.1:15674/stomp");
+    var client = Stomp.over(ws);
 
-<script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
-<script type="text/javascript">
-  var ws = new SockJS("http://127.0.0.1:15674/stomp");
-  var client = Stomp.over(ws);
+    client.heartbeat.outgoing = 0;
+    client.heartbeat.incoming = 0;
 
-  client.heartbeat.outgoing = 0;
-  client.heartbeat.incoming = 0;
+    var onDebug = function(m) {
+      console.log("DEBUG", m);
+    };
 
-  var onDebug = function(m) {
-    console.log("DEBUG", m);
-  };
+    var onConnect = function() {
+      console.log("Connected");
+      var matchID = $("[data-info~=match-title]").data('match-id');
+      var firstBattingTeamScoreInfo = "";
 
-  var onConnect = function() {
-    console.log("Connected");
-    var matchID = $("[data-behavior~=match-title]").data('match-id');
-    var firstBattingTeamScoreInfo = "";
+      client.subscribe("match-" + matchID, function(data) {
+        var match = JSON.parse(data.body);
 
-    client.subscribe("match-" + matchID, function(data) {
-      var match = JSON.parse(data.body);
+        if (match["first_batting_team_info"]["played"]) {
+          $("[data-info~=first-batting-team-info]").html(match["first_batting_team_info"]["status"]);
+        }
 
-      if (match["first_batting_team_score"]["played"]) {
-        var firstBattingTeamScoreInfo = match["first_batting_team_score"]["name"] + " " + match["first_batting_team_score"]["total_runs"] + "/" + match["first_batting_team_score"]["total_out"];
-        $("[data-behavior~=first-batting-team-score]").html("<h3>" + firstBattingTeamScoreInfo + "</h3>");
-      }
+        $("[data-info~=current-batting-team-info]").html(match["current_batting_team_info"]["status"]);
 
-      var currentBattingTeamScoreInfo = match["current_batting_team_score"]["name"] + " " + match["current_batting_team_score"]["total_runs"] + "/" + match["current_batting_team_score"]["total_out"];
-      console.log(currentBattingTeamScoreInfo);
-      $("[data-behavior~=current-batting-team-score]").html(currentBattingTeamScoreInfo);
-    });
-  };
+        var matchEndResult = match["end_result"];
+        if(matchEndResult) {
+          if (matchEndResult != "tied") {
+            $("[data-info~=match-end-result]").html(matchEndResult + " this match");
+          }else {
+            $("[data-info~=match-end-result]").html("Match got tied");
+          }
+        }
+      });
+    };
 
-   var onError = function(e) {
-     console.log("ERROR", e);
-   };
+     var onError = function(e) {
+       console.log("ERROR", e);
+     };
 
-   client.debug = onDebug;
-   client.connect("guest", "guest", onConnect, onError, "/");
- </script>
+     client.debug = onDebug;
+     client.connect("guest", "guest", onConnect, onError, "/");
+   </script>
+ <% end %>
