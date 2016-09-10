@@ -5,13 +5,7 @@
       <table>
         <tbody>
           <% @live_matches.each do |match| %>
-            <tr>
-              <td>
-                <%= link_to match_path(match["id"]) do %>
-                  <b><%= match["team1"] %></b> v <b><%= match["team2"] %></b>
-                <% end %>
-              </td>
-            </tr>
+            <%= render partial: 'match', locals: { match: match } %>
           <% end %>
         </tbody>
       <% else %>
@@ -25,18 +19,12 @@
       <table>
         <tbody>
           <% @previous_matches.each do |match| %>
-            <tr>
-              <td>
-                <%= link_to match_path(match["id"]) do %>
-                  <b><%= match["team1"] %></b> v <b><%= match["team2"] %></b>
-                <% end %>
-              </td>
-            </tr>
+            <%= render partial: 'match', locals: { match: match } %>
           <% end %>
         </tbody>
       </table>
     <% else %>
-      No matches found!
+      No previous matches found!
     <% end %>
   </div>
 </div>
