@@ -21,7 +21,6 @@
 </div>
 
 <% if @match["end_result"].blank? %>
-  <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
   <script type="text/javascript">
     var ws = new SockJS("http://127.0.0.1:15674/stomp");
     var client = Stomp.over(ws);
@@ -38,7 +37,7 @@
       var matchID = $("[data-info~=match-title]").data('match-id');
       var firstBattingTeamScoreInfo = "";
 
-      client.subscribe("match-" + matchID, function(data) {
+      client.subscribe("/exchange/match_scores/match-" + matchID, function(data) {
         var match = JSON.parse(data.body);
 
         if (match["first_batting_team_info"]["played"]) {
