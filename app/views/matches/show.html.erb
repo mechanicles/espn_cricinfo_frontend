@@ -17,10 +17,14 @@
     <%= @match["current_batting_team_info"]["status"] %>
   </div>
   <br/ >
-  <%= link_to "Back", root_path %>
+
+  <div class="back-link">
+    <%= link_to "Back", root_path %>
+  </div>
 </div>
 
 <% if @match["end_result"].blank? %>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
   <script type="text/javascript">
     var ws = new SockJS("<%= ENV["CLOUDAMQP_STOMP_URL"] %>");
     var client = Stomp.over(ws);
@@ -34,26 +38,32 @@
 
     var onConnect = function() {
       console.log("Connected");
-      var matchID = $("[data-info~=match-title]").data('match-id');
-      var firstBattingTeamScoreInfo = "";
+      var matchID                       = $("[data-info ~= match-title]").data('match-id');
+      var firstBattingTeamScoreInfo     = "";
+      var firstBattingTeamInfoElement   = $("[data-info ~= first-batting-team-info]");
+      var currentBattingTeamInfoElement = $("[data-info ~= current-batting-team-info]");
+      var matchEndResultElement         = $("[data-info ~= match-end-result]");
 
       client.subscribe("/exchange/match_scores/match-" + matchID, function(data) {
         var match = JSON.parse(data.body);
 
         if (match["first_batting_team_info"]["played"]) {
-          $("[data-info~=first-batting-team-info]").html(match["first_batting_team_info"]["status"]);
+          firstBattingTeamInfoElement.html(match["first_batting_team_info"]["status"]);
         }
 
-        $("[data-info~=current-batting-team-info]").html(match["current_batting_team_info"]["status"]);
+        currentBattingTeamInfoElement.html(match["current_batting_team_info"]["status"]);
+        currentBattingTeamInfoElement.effect("highlight", {}, 1500);
 
         var matchEndResult = match["end_result"];
+
         if(matchEndResult) {
-          if (matchEndResult != "tied") {
-            $("[data-info~=match-end-result]").html(matchEndResult + " this match");
+          if (matchEndResult == "Tied") {
+            matchEndResultElement.html("Match tied");
           }else {
-            $("[data-info~=match-end-result]").html("Match got tied");
+            matchEndResultElement.html(matchEndResult + " this match");
           }
-          $("[data-info~=current-batting-team-info]").removeClass('green-color');
+          matchEndResultElement.effect("highlight", {}, 1500);
+          currentBattingTeamInfoElement.removeClass('green-color');
         }
       });
     };

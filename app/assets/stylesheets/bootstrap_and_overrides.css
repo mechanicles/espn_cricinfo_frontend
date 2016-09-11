@@ -36,6 +36,8 @@ h2 span {
 .current-batting-team {
   font-size: larger;
   font-weight:500;
+  min-width: auto;
+  float: left;
 }
 
 .first-batting-team {
@@ -43,10 +45,16 @@ h2 span {
   font-weight:500;
   float: left;
   margin-right: 10px;
+  min-width: auto;
 }
 
 .match-end-result {
   color: red;
   font-weight:500;
   font-size: larger;
+}
+
+.back-link {
+  clear: both;
+  float: left;
 }
