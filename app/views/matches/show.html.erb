@@ -58,11 +58,12 @@
       });
     };
 
-     var onError = function(e) {
-       console.log("ERROR", e);
-     };
+    var onError = function(e) {
+      console.log("ERROR", e);
+    };
 
-     client.debug = onDebug;
-     client.connect("guest", "guest", onConnect, onError, "/");
-   </script>
+    client.debug = onDebug;
+    client.connect("<%= ENV["CLOUDAMQP_USER"] %>","<%= ENV["CLOUDAMQP_PASSWORD"] %>",
+                   onConnect, onError,"<%= ENV["CLOUDAMQP_VHOST"] %>");
+  </script>
  <% end %>
