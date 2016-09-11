@@ -22,7 +22,7 @@
 
 <% if @match["end_result"].blank? %>
   <script type="text/javascript">
-    var ws = new SockJS("http://127.0.0.1:15674/stomp");
+    var ws = new SockJS("<%= ENV["CLOUDAMQP_STOMP_URL"] %>");
     var client = Stomp.over(ws);
 
     client.heartbeat.outgoing = 0;
