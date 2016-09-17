@@ -29,6 +29,7 @@
     var ws = new SockJS("<%= ENV["CLOUDAMQP_STOMP_URL"] %>");
     var client = Stomp.over(ws);
 
+    // RabbitMQ SockJS does not support heartbeats so disable them.
     client.heartbeat.outgoing = 0;
     client.heartbeat.incoming = 0;
 
@@ -38,11 +39,11 @@
 
     var onConnect = function() {
       console.log("Connected");
-      var matchID                       = $("[data-info ~= match-title]").data('match-id');
+      var matchID                       = $("[data-info~=match-title]").data('match-id');
       var firstBattingTeamScoreInfo     = "";
-      var firstBattingTeamInfoElement   = $("[data-info ~= first-batting-team-info]");
-      var currentBattingTeamInfoElement = $("[data-info ~= current-batting-team-info]");
-      var matchEndResultElement         = $("[data-info ~= match-end-result]");
+      var firstBattingTeamInfoElement   = $("[data-info~=first-batting-team-info]");
+      var currentBattingTeamInfoElement = $("[data-info~=current-batting-team-info]");
+      var matchEndResultElement         = $("[data-info~=match-end-result]");
 
       client.subscribe("/exchange/match_scores/match-" + matchID, function(data) {
         var match = JSON.parse(data.body);

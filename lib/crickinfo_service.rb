@@ -1,6 +1,6 @@
-class EspnCrickinfoService
-  def get_all_maches_info
-    JSON.parse Http.get("#{backend_espncrickinfo_url}/matches.json").body
+class CrickinfoService
+  def get_all_matches_info
+    JSON.parse(Http.get("#{backend_espncrickinfo_url}/matches.json").body)["all_matches"]
   end
 
   def get_match_info(match_id)
