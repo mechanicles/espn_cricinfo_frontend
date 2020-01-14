@@ -26,8 +26,8 @@
 <% if @match["end_result"].blank? %>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
   <script type="text/javascript">
-    var ws = new SockJS("<%= ENV["CLOUDAMQP_STOMP_URL"] %>");
-    var client = Stomp.over(ws);
+    var wss = new WebSocket("<%= ENV["CLOUDAMQP_STOMP_URL"] %>");
+    var client = Stomp.over(wss);
 
     // RabbitMQ SockJS does not support heartbeats so disable them.
     client.heartbeat.outgoing = 0;
