@@ -12,4 +12,3 @@ In this microservice, we get the real time match score from publisher microservi
 
 - Publisher Microservice - [https://espn-cricinfo.herokuapp.com/](https://espn-cricinfo.herokuapp.com/)
 - Subscriber Microservice - [https://espn-cricinfo-frontend.herokuapp.com/](https://espn-cricinfo-frontend.herokuapp.com/)
-
